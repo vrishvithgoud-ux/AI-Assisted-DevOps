@@ -8,6 +8,6 @@ health_bp = Blueprint("health", __name__)
 def health():
     return jsonify(
         status="healthy",
-        service="incident-api",
+        service="devops-api",
         version="1.0.0",
     )
