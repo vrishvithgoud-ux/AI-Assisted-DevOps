@@ -21,14 +21,14 @@ pipeline {
 
                     docker run --detach \
                         --name "$CONTAINER_NAME" \
-                        --publish 127.0.0.1::5000 \
                         "$IMAGE_NAME:$BUILD_NUMBER"
 
-                    host_port="$(docker port "$CONTAINER_NAME" 5000/tcp | sed 's/.*://')"
+                    container_ip="$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CONTAINER_NAME")"
+                    test -n "$container_ip"
 
                     for attempt in $(seq 1 30); do
-                        if response="$(curl --fail --silent \
-                            "http://127.0.0.1:${host_port}/health")"; then
+                        if response="$(curl --fail --silent --connect-timeout 2 --max-time 2 \
+                            "http://${container_ip}:5000/health")"; then
 
                             printf '%s\n' "$response"
 
@@ -54,4 +54,3 @@ pipeline {
         }
     } 
 }
-
