@@ -11,3 +11,6 @@ htmlcov/
 .ruff_cache/
 *.log
 app.db
+
+# Jenkins local/recovery configuration
+jenkins-config*.xml
