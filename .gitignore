@@ -14,3 +14,7 @@ app.db
 
 # Jenkins local/recovery configuration
 jenkins-config*.xml
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
